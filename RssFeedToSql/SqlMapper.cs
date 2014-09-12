@@ -8,8 +8,8 @@ namespace RssFeedToSql
     {
         public string Map(List<Entry> entries)
         {
-            var articleInsert = @"INSERT INTO articles (title, content, source, datetime) VALUES ('{0}','{1}','{2}','{3}')";
-            var authorInsert = @"INSERT INTO writers (name, email) VALUES ('{0}','{1}')";
+            var articleInsert = @"INSERT INTO articles ('title', 'content', 'source', 'datetime') VALUES ('{0}','{1}','{2}','{3}')";
+            var authorInsert = @"INSERT INTO writers ('name', 'email') VALUES ('{0}','{1}')";
             
             var sb = new StringBuilder();
 
@@ -30,7 +30,7 @@ namespace RssFeedToSql
                 sb.AppendLine(
                     string.Format(articleInsert,
                         EncodeMySqlString(item.Title),
-                        EncodeMySqlString(item.Body),
+                        EncodeMySqlString(item.Body.TrimStart()),
                         EncodeMySqlString(item.Uri), 
                         EncodeMySqlString(item.Timestamp.ToString()))
                         );
@@ -42,9 +42,9 @@ namespace RssFeedToSql
         string EncodeMySqlString(string value)
         {
             return value.Replace(@"\", @"\\")
-                        .Replace("’", @"\'")
-                        .Replace("`", @"\'")
-                        .Replace("'", @"\'");
+                        .Replace("’", @"")
+                        .Replace("`", @"")
+                        .Replace("'", @"");
         }
     }
 }

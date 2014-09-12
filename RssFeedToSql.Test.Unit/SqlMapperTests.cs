@@ -41,8 +41,8 @@ namespace RssFeedToSql.Test.Unit
         [Test]
         public void ContainsAuthorSql()
         {
-            Assert.That(_sqlLines, Is.StringContaining("INSERT INTO writers (name, email) VALUES ('Writer1','email1@tempuri.org')"));
-            Assert.That(_sqlLines, Is.StringContaining("INSERT INTO writers (name, email) VALUES ('Writer2','email2@tempuri.org')"));
+            Assert.That(_sqlLines, Is.StringContaining("INSERT INTO writers ('name', 'email') VALUES ('Writer1','email1@tempuri.org')"));
+            Assert.That(_sqlLines, Is.StringContaining("INSERT INTO writers ('name', 'email') VALUES ('Writer2','email2@tempuri.org')"));
         }
     }
 }
