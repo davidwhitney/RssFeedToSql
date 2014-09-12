@@ -17,16 +17,34 @@ namespace RssFeedToSql
             foreach (var group in groupedByAuthors)
             {
                 var first = group.First();
-                sb.AppendLine(string.Format(authorInsert, first.FromName, first.FromEmail));
+                sb.AppendLine(
+                    string.Format(authorInsert,
+                        EncodeMySqlString(first.FromName), 
+                        EncodeMySqlString(first.FromEmail))
+                        );
             }
 
             foreach (var group in groupedByAuthors)
             foreach (var item in group)
             {
-                sb.AppendLine(string.Format(articleInsert, item.Title, item.Body, item.Uri, item.Timestamp));
+                sb.AppendLine(
+                    string.Format(articleInsert,
+                        EncodeMySqlString(item.Title),
+                        EncodeMySqlString(item.Body),
+                        EncodeMySqlString(item.Uri), 
+                        EncodeMySqlString(item.Timestamp.ToString()))
+                        );
             }
 
             return sb.ToString();
+        }
+
+        string EncodeMySqlString(string value)
+        {
+            return value.Replace(@"\", @"\\")
+                        .Replace("’", @"\'")
+                        .Replace("`", @"\'")
+                        .Replace("'", @"\'");
         }
     }
 }

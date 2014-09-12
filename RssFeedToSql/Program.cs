@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace RssFeedToSql
 {
@@ -24,7 +25,7 @@ namespace RssFeedToSql
             Console.WriteLine("Parsing files");
             foreach (var file in files)
             {
-                var text = File.ReadAllText(file);
+                var text = File.ReadAllText(file, Encoding.Unicode);
                 var entry = parser.Parse(text);
                 items.Add(entry);
 
