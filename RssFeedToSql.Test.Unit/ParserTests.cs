@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
 
 namespace RssFeedToSql.Test.Unit
@@ -9,14 +6,38 @@ namespace RssFeedToSql.Test.Unit
     [TestFixture]
     public class ParserTests
     {
-        [Test]
-        public void Parse_SentCorrectlyIdentified()
+        private Entry _entry;
+
+        [SetUp]
+        public void SetUp()
         {
             var parser = new Parser();
+            _entry = parser.Parse(_textSample); 
+        }
 
-            var entry = parser.Parse(_textSample);
+        [Test]
+        public void SentCorrectlyIdentified()
+        {
+            Assert.That(_entry.Sent, Is.EqualTo(new DateTime(2014, 6, 23, 12, 03, 00)));
+        }
 
-            Assert.That(entry.Sent, Is.EqualTo(new DateTime(2014, 6, 23, 12, 03, 00)));
+        [Test]
+        public void FromCorrectlyIdentified()
+        {
+            Assert.That(_entry.FromEmail, Is.EqualTo("no-reply@giantbomb.com"));
+            Assert.That(_entry.FromName, Is.EqualTo("Patrick Klepek"));
+        }
+
+        [Test]
+        public void TitleIdentified()
+        {
+            Assert.That(_entry.Title, Is.EqualTo("A Conversation With Wolfenstein: The New Order's Jens Matthies"));
+        }
+
+        [Test]
+        public void LinkIdentified()
+        {
+            Assert.That(_entry.Link, Is.EqualTo("http://www.giantbomb.com/articles/a-conversation-with-wolfenstein-the-new-orders-jens-matthies/1100-4943/"));
         }
 
         private string _textSample = @"From:	""no-reply@giantbomb.com (Patrick Klepek)""
@@ -25,6 +46,7 @@ To:
 Subject:	A Conversation With Wolfenstein: The New Order's Jens Matthies
 
 Some body goes here
+Another line is here
 Matthies: Oh, yeah. That would be wonderful.
 Patrick Klepek <https://plus.google.com/116204666196772968478?rel=author>  on Google+ 
 	Filed under:
@@ -34,6 +56,5 @@ Patrick Klepek <https://plus.google.com/116204666196772968478?rel=author>  on Go
 	MachineGames <http://www.giantbomb.com/machinegames/3010-7331/> 
 
 View article... <http://www.giantbomb.com/articles/a-conversation-with-wolfenstein-the-new-orders-jens-matthies/1100-4943/>";
-
     }
 }
