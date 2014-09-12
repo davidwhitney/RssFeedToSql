@@ -5,7 +5,7 @@ using System.Text;
 
 namespace RssFeedToSql
 {
-    class Parser
+    public class Parser
     {
     }
 }
