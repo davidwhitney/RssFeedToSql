@@ -18,7 +18,7 @@ namespace RssFeedToSql.Test.Unit
         [Test]
         public void SentCorrectlyIdentified()
         {
-            Assert.That(_entry.Sent, Is.EqualTo(new DateTime(2014, 6, 23, 12, 03, 00)));
+            Assert.That(_entry.Timestamp, Is.EqualTo(new DateTime(2014, 6, 23, 12, 03, 00)));
         }
 
         [Test]
@@ -37,7 +37,19 @@ namespace RssFeedToSql.Test.Unit
         [Test]
         public void LinkIdentified()
         {
-            Assert.That(_entry.Link, Is.EqualTo("http://www.giantbomb.com/articles/a-conversation-with-wolfenstein-the-new-orders-jens-matthies/1100-4943/"));
+            Assert.That(_entry.Uri, Is.EqualTo("http://www.giantbomb.com/articles/a-conversation-with-wolfenstein-the-new-orders-jens-matthies/1100-4943/"));
+        }
+
+        [Test]
+        public void BodyIsFound()
+        {
+            Assert.That(_entry.Body, Is.StringContaining("Some body goes here"));
+        }
+
+        [Test]
+        public void NoWindowsLineEndings()
+        {
+            Assert.That(_entry.Body, Is.Not.StringContaining("\r\n"));
         }
 
         private string _textSample = @"From:	""no-reply@giantbomb.com (Patrick Klepek)""

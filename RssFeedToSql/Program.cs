@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
 
 namespace RssFeedToSql
 {
@@ -9,6 +8,34 @@ namespace RssFeedToSql
     {
         static void Main(string[] args)
         {
+            if (args.Length == 0)
+            {
+                Console.WriteLine("Usage: ");
+                Console.WriteLine("RssFeedToSql.exe \"c:\\some\\directory\\path\"");
+                return;
+            }
+
+            var parser = new Parser();
+            var mapper = new SqlMapper();
+
+            var files = Directory.GetFiles(args[0]);
+            var items = new List<Entry>();
+
+            Console.WriteLine("Parsing files");
+            foreach (var file in files)
+            {
+                var text = File.ReadAllText(file);
+                var entry = parser.Parse(text);
+                items.Add(entry);
+
+                Console.Write(".");
+            }
+
+            Console.WriteLine("Generating SQL");
+            var sqlDump = mapper.Map(items);
+
+            File.WriteAllText("import.sql", sqlDump);
+            Console.WriteLine("Written all text to import.sql");
         }
     }
 }

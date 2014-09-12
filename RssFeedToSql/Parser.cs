@@ -36,7 +36,7 @@ namespace RssFeedToSql
         {
             var articleSlugLine = lines.Last();
             var cutDown = articleSlugLine.Replace("View article... <", "").Replace(">", "");
-            entry.Link = cutDown;
+            entry.Uri = cutDown;
         }
 
         private void MapTitle(List<string> lines, Entry entry)
@@ -46,7 +46,7 @@ namespace RssFeedToSql
 
         private void MapSent(List<string> lines, Entry entry)
         {
-            entry.Sent = DateTime.Parse(TrimTag("Sent", lines[1]), new DateTimeFormatInfo(), DateTimeStyles.None);
+            entry.Timestamp = DateTime.Parse(TrimTag("Sent", lines[1]), new DateTimeFormatInfo(), DateTimeStyles.None);
         }
 
         private void MapFrom(List<string> lines, Entry entry)
@@ -64,11 +64,11 @@ namespace RssFeedToSql
 
     public class Entry
     {
-        public DateTime Sent { get; set; }
+        public DateTime Timestamp { get; set; }
         public string FromEmail { get; set; }
         public string FromName { get; set; }
         public string Title { get; set; }
-        public string Link { get; set; }
+        public string Uri { get; set; }
         public string Body { get; set; }
     }
 }
