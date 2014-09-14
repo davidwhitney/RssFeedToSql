@@ -26,14 +26,14 @@ namespace RssFeedToSql.Test.Unit
         [Test]
         public void FromCorrectlyIdentified()
         {
-            Assert.That(_entry.Writer.Email, Is.EqualTo("no-reply@giantbomb.com"));
+            Assert.That(_entry.Writer.Email, Is.EqualTo(""));
             Assert.That(_entry.Writer.Name, Is.EqualTo("Patrick Klepek"));
         }
 
         [Test]
         public void TitleIdentified()
         {
-            Assert.That(_entry.Title, Is.EqualTo("A Conversation With Wolfenstein: The New Order's Jens Matthies"));
+            Assert.That(_entry.Title, Is.EqualTo(""));
         }
 
         [Test]
@@ -54,10 +54,10 @@ namespace RssFeedToSql.Test.Unit
             Assert.That(_entry.Body, Is.Not.StringContaining("\r\n"));
         }
 
-        private string _textSample = @"From:	""no-reply@giantbomb.com (Patrick Klepek)""
+        private string _textSample = @"From:	""Patrick Klepek""
 Sent:	6/23/2014 12:03:00 PM
 To:	
-Subject:	A Conversation With Wolfenstein: The New Order's Jens Matthies
+Subject:
 
 Some body goes here
 Another line is here

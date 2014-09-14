@@ -43,6 +43,11 @@ namespace RssFeedToSql.Parsing
         private void MapTitle(List<string> lines, Entry entry)
         {
             entry.Title = TrimTag("Subject", lines[3]);
+
+            if (entry.Title.Trim() == "Subject:")
+            {
+                entry.Title = "";
+            }
         }
 
         private void MapSent(List<string> lines, Entry entry)
@@ -52,11 +57,19 @@ namespace RssFeedToSql.Parsing
 
         private void MapFrom(List<string> lines, Entry entry)
         {
-            var fromParts = TrimTag("From", lines[0]).Split(new[] {'('});
+            var trimmed = TrimTag("From", lines[0]);
+            var trimmedParts = trimmed.Split(new[] { '(' });
+
+            if (trimmedParts.Length <= 1)
+            {
+                entry.Writer = new Writer {Name = trimmedParts.First().Trim(), Email = string.Empty};
+                return;
+            }
+            
             entry.Writer = new Writer
             {
-                Email = fromParts.First().Trim(),
-                Name = fromParts.Skip(1).First().Trim().Replace(")", "")
+                Email = trimmedParts.First().Trim(),
+                Name = trimmedParts.Skip(1).First().Trim().Replace(")", "")
             };
         }
 
