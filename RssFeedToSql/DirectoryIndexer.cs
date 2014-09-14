@@ -33,8 +33,9 @@ namespace RssFeedToSql
                 foreach (var directory in Directory.GetDirectories(rootDirectory))
                 {
                     IndexSingleDirectory(directory, writer);
-                    WritePublicationAndWriterData(writer);
                 }
+
+                WritePublicationAndWriterData(writer);
 
                 writer.Flush();
                 writer.Close();
