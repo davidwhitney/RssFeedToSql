@@ -18,7 +18,7 @@ namespace RssFeedToSql
             {
                 var indexer = new DirectoryIndexer();
 
-                using (var writer = new StreamWriter("output.sql", true))
+                using (var writer = new StreamWriter("output.sql", false))
                 {
                     indexer.Index(args[0], writer);
                     writer.Flush();
