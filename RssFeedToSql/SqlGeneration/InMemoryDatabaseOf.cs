@@ -5,30 +5,30 @@ namespace RssFeedToSql.SqlGeneration
 {
     public class InMemoryDatabaseOf<TEntityType> where TEntityType : IHaveAnId
     {
-        private int _writerAutoId;
-        private readonly Dictionary<int, TEntityType> _writers;
+        private int _lastId;
+        private readonly Dictionary<int, TEntityType> _inMemoryStore;
 
         public InMemoryDatabaseOf()
         {
-            _writers = new Dictionary<int, TEntityType>();
+            _inMemoryStore = new Dictionary<int, TEntityType>();
         }
 
-        public int CreateOrRetrieveId(TEntityType potentiallyNewWriter)
+        public int CreateOrRetrieveId(TEntityType record)
         {
-            if (_writers.ContainsValue(potentiallyNewWriter))
+            if (_inMemoryStore.ContainsValue(record))
             {
-                return _writers.Single(x => Equals(x.Value, potentiallyNewWriter)).Key;
+                return _inMemoryStore.Single(x => Equals(x.Value, record)).Key;
             }
 
-            _writerAutoId = _writerAutoId + 1;
-            potentiallyNewWriter.Id = _writerAutoId;
-            _writers.Add(_writerAutoId, potentiallyNewWriter);
-            return _writerAutoId;
+            _lastId = _lastId + 1;
+            record.Id = _lastId;
+            _inMemoryStore.Add(_lastId, record);
+            return _lastId;
         }
 
         public IEnumerable<TEntityType> Items
         {
-            get { return _writers.Values; }
+            get { return _inMemoryStore.Values; }
         } 
     }
 }
