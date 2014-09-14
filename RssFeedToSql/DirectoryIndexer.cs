@@ -30,7 +30,10 @@ namespace RssFeedToSql
         {
             using (var writer = new StreamWriter("import.sql", false))
             {
-                foreach (var directory in Directory.GetDirectories(rootDirectory))
+                var dirs = Directory.GetDirectories(rootDirectory);
+                Console.WriteLine(dirs.Length + " publications found.");
+
+                foreach (var directory in dirs)
                 {
                     IndexSingleDirectory(directory, writer);
                 }
@@ -53,11 +56,13 @@ namespace RssFeedToSql
 
             var files = Directory.GetFiles(rootDirectory);
 
-            foreach (var file in files)
+            Console.WriteLine(files.Length + " files found.");
+            for (int index = 0; index < files.Length; index++)
             {
+                var file = files[index];
                 _currentArticleId = _currentArticleId + 1;
                 var text = File.ReadAllText(file, Encoding.Unicode);
-                
+
                 var entry = _parser.Parse(text);
 
                 entry.Writer.Id = _writers.CreateOrRetrieveId(entry.Writer);
@@ -67,7 +72,7 @@ namespace RssFeedToSql
                 var entrySql = _sqlGen.GenerateSqlFor(entry);
                 openStream.WriteLine(entrySql);
 
-                Console.Write(".");
+                Console.Write(index + 1 + " ");
             }
         }
 
