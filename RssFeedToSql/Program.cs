@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace RssFeedToSql
 {
@@ -18,27 +16,15 @@ namespace RssFeedToSql
 
             try
             {
+                var indexer = new DirectoryIndexer();
 
-                var parser = new Parser();
-                var mapper = new SqlMapper();
-
-                var files = Directory.GetFiles(args[0]);
-                var items = new List<Entry>();
-
-                Console.WriteLine("Parsing files");
-                foreach (var file in files)
+                using (var writer = new StreamWriter("output.sql", true))
                 {
-                    var text = File.ReadAllText(file, Encoding.Unicode);
-                    var entry = parser.Parse(text);
-                    items.Add(entry);
-
-                    Console.Write(".");
+                    indexer.Index(args[0], writer);
+                    writer.Flush();
+                    writer.Close();
                 }
 
-                Console.WriteLine("Generating SQL");
-                var sqlDump = mapper.Map(items);
-
-                File.WriteAllText("import.sql", sqlDump);
                 Console.WriteLine("Written all text to import.sql");
 
             }

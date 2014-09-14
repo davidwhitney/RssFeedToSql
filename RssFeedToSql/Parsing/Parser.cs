@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using RssFeedToSql.Model;
 
-namespace RssFeedToSql
+namespace RssFeedToSql.Parsing
 {
     public class Parser
     {
@@ -52,23 +53,16 @@ namespace RssFeedToSql
         private void MapFrom(List<string> lines, Entry entry)
         {
             var fromParts = TrimTag("From", lines[0]).Split(new[] {'('});
-            entry.FromEmail = fromParts.First().Trim();
-            entry.FromName = fromParts.Skip(1).First().Trim().Replace(")", "");
+            entry.Writer = new Writer
+            {
+                Email = fromParts.First().Trim(),
+                Name = fromParts.Skip(1).First().Trim().Replace(")", "")
+            };
         }
 
         private string TrimTag(string tag, string text)
         {
             return text.Replace(tag + ":\t", "").Replace("\"", "").Trim();
         }
-    }
-
-    public class Entry
-    {
-        public DateTime Timestamp { get; set; }
-        public string FromEmail { get; set; }
-        public string FromName { get; set; }
-        public string Title { get; set; }
-        public string Uri { get; set; }
-        public string Body { get; set; }
     }
 }

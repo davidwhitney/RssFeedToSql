@@ -1,5 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
+using RssFeedToSql.Model;
+using RssFeedToSql.Parsing;
 
 namespace RssFeedToSql.Test.Unit
 {
@@ -24,8 +26,8 @@ namespace RssFeedToSql.Test.Unit
         [Test]
         public void FromCorrectlyIdentified()
         {
-            Assert.That(_entry.FromEmail, Is.EqualTo("no-reply@giantbomb.com"));
-            Assert.That(_entry.FromName, Is.EqualTo("Patrick Klepek"));
+            Assert.That(_entry.Writer.Email, Is.EqualTo("no-reply@giantbomb.com"));
+            Assert.That(_entry.Writer.Name, Is.EqualTo("Patrick Klepek"));
         }
 
         [Test]
