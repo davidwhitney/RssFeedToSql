@@ -1,6 +1,6 @@
 namespace RssFeedToSql
 {
-    public class Publication
+    public class Publication : IHaveAnId
     {
         public int Id { get; set; }
         public string Name { get; set; }

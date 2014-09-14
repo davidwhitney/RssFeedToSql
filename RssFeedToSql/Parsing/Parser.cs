@@ -37,7 +37,7 @@ namespace RssFeedToSql.Parsing
         {
             var articleSlugLine = lines.Last();
             var cutDown = articleSlugLine.Replace("View article... <", "").Replace(">", "");
-            entry.Uri = cutDown;
+            entry.Uri = cutDown.Trim();
         }
 
         private void MapTitle(List<string> lines, Entry entry)

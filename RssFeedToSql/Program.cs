@@ -17,16 +17,9 @@ namespace RssFeedToSql
             try
             {
                 var indexer = new DirectoryIndexer();
-
-                using (var writer = new StreamWriter("output.sql", false))
-                {
-                    indexer.Index(args[0], writer);
-                    writer.Flush();
-                    writer.Close();
-                }
+                indexer.IndexAllDirectoriesUnder(args[0]);
 
                 Console.WriteLine("Written all text to import.sql");
-
             }
             catch (Exception ex)
             {

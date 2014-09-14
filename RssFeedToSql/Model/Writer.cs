@@ -1,6 +1,6 @@
 ﻿namespace RssFeedToSql.Model
 {
-    public class Writer
+    public class Writer : IHaveAnId
     {
         public int Id { get; set; }
         public string Email { get; set; }

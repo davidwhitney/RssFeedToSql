@@ -6,6 +6,7 @@ namespace RssFeedToSql.SqlGeneration
     {
         private const string ArticleInsert = @"INSERT INTO articles (id, title, content, source, datetime, publicationId, writerId) VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}');";
         private const string AuthorInsert = @"INSERT INTO writers (id, name, email) VALUES ('{0}','{1}','{2}');";
+        private const string PublicationInsert = @"INSERT INTO publications (id, name, feed) VALUES ('{0}','{1}','');";
 
         public string GenerateSqlFor(Entry item)
         {
@@ -27,7 +28,14 @@ namespace RssFeedToSql.SqlGeneration
                 EncodeMySqlString(item.Email));
         }
 
-        string EncodeMySqlString(string value)
+        public string GenerateSqlFor(Publication entry)
+        {
+            return string.Format(PublicationInsert,
+                EncodeMySqlString(entry.Id.ToString()),
+                EncodeMySqlString(entry.Name.TrimStart()));
+        }
+
+        private static string EncodeMySqlString(string value)
         {
             return value.Replace(@"\", @"\\")
                         .Replace("’", @"")

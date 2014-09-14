@@ -2,7 +2,7 @@
 
 namespace RssFeedToSql.Model
 {
-    public class Entry
+    public class Entry : IHaveAnId
     {
         public int Id { get; set; }
      

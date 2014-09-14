@@ -24,11 +24,24 @@ namespace RssFeedToSql
             
             _writers = new InMemoryDatabaseOf<Writer>();
             _publications = new InMemoryDatabaseOf<Publication>();
-
-            _currentArticleId = 1;
         }
 
-        public void Index(string rootDirectory, TextWriter openStream)
+        public void IndexAllDirectoriesUnder(string rootDirectory)
+        {
+            using (var writer = new StreamWriter("import.sql", false))
+            {
+                foreach (var directory in Directory.GetDirectories(rootDirectory))
+                {
+                    IndexSingleDirectory(directory, writer);
+                    WritePublicationAndWriterData(writer);
+                }
+
+                writer.Flush();
+                writer.Close();
+            }
+        }
+
+        public void IndexSingleDirectory(string rootDirectory, TextWriter openStream)
         {
             Console.WriteLine("Parsing files in " + rootDirectory);
 
@@ -55,7 +68,19 @@ namespace RssFeedToSql
 
                 Console.Write(".");
             }
+        }
 
+        public void WritePublicationAndWriterData(TextWriter openStream)
+        {
+            foreach (var entry in _publications.Items)
+            {
+                openStream.WriteLine(_sqlGen.GenerateSqlFor(entry));
+            }
+
+            foreach (var entry in _writers.Items)
+            {
+                openStream.WriteLine(_sqlGen.GenerateSqlFor(entry));
+            }
         }
     }
 }
