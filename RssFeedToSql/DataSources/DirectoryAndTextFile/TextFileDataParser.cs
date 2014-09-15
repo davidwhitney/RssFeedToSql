@@ -4,9 +4,9 @@ using System.Globalization;
 using System.Linq;
 using RssFeedToSql.Model;
 
-namespace RssFeedToSql.Parsing
+namespace RssFeedToSql.DataSources.DirectoryAndTextFile
 {
-    public class Parser
+    public class TextFileDataParser
     {
         public static Entry Empty = new Entry();
 

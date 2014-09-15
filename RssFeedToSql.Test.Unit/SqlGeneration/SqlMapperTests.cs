@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using RssFeedToSql.Model;
-using RssFeedToSql.SqlGeneration;
+using RssFeedToSql.ProcessingPipelines.SqlDump;
 
-namespace RssFeedToSql.Test.Unit
+namespace RssFeedToSql.Test.Unit.SqlGeneration
 {
     [TestFixture]
     public class SqlMapperTests

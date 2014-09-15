@@ -1,6 +1,6 @@
 ﻿using System;
-using RssFeedToSql.Parsing;
-using RssFeedToSql.SqlGeneration;
+using RssFeedToSql.DataSources.DirectoryAndTextFile;
+using RssFeedToSql.ProcessingPipelines.SqlDump;
 
 namespace RssFeedToSql
 {
@@ -20,12 +20,12 @@ namespace RssFeedToSql
 
         private static void ImportData(string[] args)
         {
-            using (var sqlFileProcessingPipeline = new SqlOutputFileProcessor("import.sql"))
-            using (var indexer = new DirectoryAndFlatFileImporter(args[0]))
+            using (var outputPipeline = new SqlDumpProcessingPipeline("import.sql"))
+            using (var dataSource = new DirectoryAndFlatFileDataSource(args[0]))
             {
-                indexer.OnPublicationParsed = sqlFileProcessingPipeline.ProcessSingleItem;
-                indexer.OnEntryParsed = sqlFileProcessingPipeline.ProcessSingleItem;
-                indexer.Import();
+                dataSource.OnPublicationParsed = outputPipeline.ProcessSingleItem;
+                dataSource.OnEntryParsed = outputPipeline.ProcessSingleItem;
+                dataSource.Import();
             }
 
             Console.WriteLine("Written all text to import.sql");

@@ -47,10 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ParserTests\WhenContentIsMalformed.cs" />
-    <Compile Include="ParserTests\WhenContentIsWellFormed.cs" />
+    <Compile Include="DataSources\DirectoryAndTextFile\TextFileDataParser\WhenContentIsMalformed.cs" />
+    <Compile Include="DataSources\DirectoryAndTextFile\TextFileDataParser\WhenContentIsWellFormed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlMapperTests.cs" />
+    <Compile Include="SqlGeneration\SqlMapperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

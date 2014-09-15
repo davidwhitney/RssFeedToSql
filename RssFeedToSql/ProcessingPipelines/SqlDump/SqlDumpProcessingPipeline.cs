@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using RssFeedToSql.Model;
 
-namespace RssFeedToSql.SqlGeneration
+namespace RssFeedToSql.ProcessingPipelines.SqlDump
 {
-    public class SqlOutputFileProcessor : IProcessArticles, IProcessPublications, IDisposable
+    public class SqlDumpProcessingPipeline : IProcessArticles, IProcessPublications, IDisposable
     {
         private int _currentArticleId;
         private readonly SqlMapper _sqlGen;
@@ -13,7 +13,7 @@ namespace RssFeedToSql.SqlGeneration
         private readonly InMemoryDatabaseOf<Writer> _writers;
         private readonly InMemoryDatabaseOf<Publication> _publications;
 
-        public SqlOutputFileProcessor(string outputFile)
+        public SqlDumpProcessingPipeline(string outputFile)
         {
             _sqlGen = new SqlMapper();
             _writer = new StreamWriter(outputFile, false);

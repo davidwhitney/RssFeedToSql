@@ -4,24 +4,24 @@ using System.Linq;
 using System.Text;
 using RssFeedToSql.Model;
 
-namespace RssFeedToSql.Parsing
+namespace RssFeedToSql.DataSources.DirectoryAndTextFile
 {
-    public class DirectoryAndFlatFileImporter : IImportFromADataSource
+    public class DirectoryAndFlatFileDataSource : IDataSource
     {
         public Action<Publication> OnPublicationParsed { get; set; }
         public Action<Entry, Publication> OnEntryParsed { get; set; }
 
         private readonly string _rootDirectory;
 
-        private readonly Parser _parser;
+        private readonly TextFileDataParser _textFileDataParser;
 
-        public DirectoryAndFlatFileImporter(string rootDirectory)
+        public DirectoryAndFlatFileDataSource(string rootDirectory)
         {
             OnPublicationParsed = p => { };
             OnEntryParsed = (e,p) => { };
 
             _rootDirectory = rootDirectory;
-            _parser = new Parser();
+            _textFileDataParser = new TextFileDataParser();
         }
         
         public void Import()
@@ -50,7 +50,7 @@ namespace RssFeedToSql.Parsing
             {
                 var file = files[index];
                 var text = File.ReadAllText(file, Encoding.Unicode);
-                var entry = _parser.Parse(text);
+                var entry = _textFileDataParser.Parse(text);
 
                 OnEntryParsed(entry, publication);
 

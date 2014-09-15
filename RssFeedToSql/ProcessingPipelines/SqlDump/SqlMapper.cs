@@ -1,6 +1,6 @@
 ﻿using RssFeedToSql.Model;
 
-namespace RssFeedToSql.SqlGeneration
+namespace RssFeedToSql.ProcessingPipelines.SqlDump
 {
     public class SqlMapper
     {

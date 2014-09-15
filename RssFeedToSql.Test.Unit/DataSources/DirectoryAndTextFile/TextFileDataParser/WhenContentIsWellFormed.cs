@@ -1,9 +1,8 @@
 ﻿using System;
 using NUnit.Framework;
 using RssFeedToSql.Model;
-using RssFeedToSql.Parsing;
 
-namespace RssFeedToSql.Test.Unit
+namespace RssFeedToSql.Test.Unit.DataSources.DirectoryAndTextFile.TextFileDataParser
 {
     [TestFixture]
     public class WhenContentIsWellFormed
@@ -13,7 +12,7 @@ namespace RssFeedToSql.Test.Unit
         [SetUp]
         public void SetUp()
         {
-            var parser = new Parser();
+            var parser = new RssFeedToSql.DataSources.DirectoryAndTextFile.TextFileDataParser();
             _entry = parser.Parse(_textSample); 
         }
 
