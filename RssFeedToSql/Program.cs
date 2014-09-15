@@ -15,27 +15,25 @@ namespace RssFeedToSql
                 return;
             }
 
-            TryImportData(args);
-        }
-
-        private static void ImportData(string[] args)
-        {
-            using (var outputPipeline = new SqlDumpProcessingPipeline("import.sql"))
-            using (var dataSource = new DirectoryAndFlatFileDataSource(args[0]))
+            Safely(() =>
             {
-                dataSource.OnPublicationParsed = outputPipeline.ProcessSingleItem;
-                dataSource.OnEntryParsed = outputPipeline.ProcessSingleItem;
-                dataSource.Import();
-            }
+                using (var outputPipeline = new SqlDumpProcessingPipeline("import.sql"))
+                using (var dataSource = new DirectoryAndFlatFileDataSource(args[0]))
+                {
+                    dataSource.OnPublicationParsed = outputPipeline.ProcessSingleItem;
+                    dataSource.OnEntryParsed = outputPipeline.ProcessSingleItem;
+                    dataSource.Import();
+                }
 
-            Console.WriteLine("Written all text to import.sql");
+                Console.WriteLine("Written all text to import.sql");
+            });
         }
 
-        private static void TryImportData(string[] args)
+        private static void Safely(Action action)
         {
             try
             {
-                ImportData(args);
+                action();
             }
             catch (Exception ex)
             {
