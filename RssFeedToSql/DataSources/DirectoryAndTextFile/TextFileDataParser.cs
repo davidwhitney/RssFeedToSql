@@ -28,7 +28,10 @@ namespace RssFeedToSql.DataSources.DirectoryAndTextFile
 
             lines.RemoveRange(0, 4);
             lines.RemoveRange(lines.Count - 1, 1);
+            
             entry.Body = string.Join("\n\n", lines);
+            
+            entry.Body = entry.Body.Replace("\n\n[embedded content]\n\n", "\n\n");
 
             return entry;
         }
