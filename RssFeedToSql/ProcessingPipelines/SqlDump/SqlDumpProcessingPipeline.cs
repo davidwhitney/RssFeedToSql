@@ -29,6 +29,8 @@ namespace RssFeedToSql.ProcessingPipelines.SqlDump
             entry.PublicationId = publication.Id;
 
             var entrySql = _sqlGen.GenerateSqlFor(entry);
+            
+            _writer.WriteLine();
             _writer.WriteLine(entrySql);
         }
 
@@ -44,11 +46,13 @@ namespace RssFeedToSql.ProcessingPipelines.SqlDump
         {
             foreach (var entry in _publications.Items)
             {
+                openStream.WriteLine();
                 openStream.WriteLine(_sqlGen.GenerateSqlFor(entry));
             }
 
             foreach (var entry in _writers.Items)
             {
+                openStream.WriteLine();
                 openStream.WriteLine(_sqlGen.GenerateSqlFor(entry));
             }
         }

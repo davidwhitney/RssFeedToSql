@@ -29,16 +29,17 @@ namespace RssFeedToSql.DataSources.DirectoryAndTextFile
 
             lines.RemoveRange(0, 4);
             lines.RemoveRange(lines.Count - 1, 1);
-            
             entry.Body = string.Join("\n\n", lines);
-            
-            entry.Body = entry.Body.Replace("\n\n[embedded content]\n\n", "\n\n");
-            
-            RegexOptions options = RegexOptions.None;
-            Regex regex = new Regex(@"[ ]{2,}", options);
-            entry.Body = regex.Replace(entry.Body, @" ");
+
+            SanitiseBody(entry);
 
             return entry;
+        }
+
+        private static void SanitiseBody(Entry entry)
+        {
+            entry.Body = entry.Body.Replace("\n\n[embedded content]\n\n", "\n\n");
+            entry.Body = new Regex(@"[ ]{2,}", RegexOptions.None).Replace(entry.Body, @" ");
         }
 
         private void MapLink(List<string> lines, Entry entry)
