@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using RssFeedToSql.Model;
 
 namespace RssFeedToSql.DataSources.DirectoryAndTextFile
@@ -32,6 +33,10 @@ namespace RssFeedToSql.DataSources.DirectoryAndTextFile
             entry.Body = string.Join("\n\n", lines);
             
             entry.Body = entry.Body.Replace("\n\n[embedded content]\n\n", "\n\n");
+            
+            RegexOptions options = RegexOptions.None;
+            Regex regex = new Regex(@"[ ]{2,}", options);
+            entry.Body = regex.Replace(entry.Body, @" ");
 
             return entry;
         }
