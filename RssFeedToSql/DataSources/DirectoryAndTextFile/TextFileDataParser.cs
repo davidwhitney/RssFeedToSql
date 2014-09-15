@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using RssFeedToSql.Model;
 
 namespace RssFeedToSql.DataSources.DirectoryAndTextFile
@@ -14,7 +15,7 @@ namespace RssFeedToSql.DataSources.DirectoryAndTextFile
         {
             var entry = new Entry();
             textSample = textSample.Trim();
-            var lines = textSample.Split(new[] {Environment.NewLine}, StringSplitOptions.None).ToList();
+            var lines = textSample.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries).Select(l => l.Trim()).ToList();
 
             if (lines.Count < 4)
             {
@@ -28,7 +29,14 @@ namespace RssFeedToSql.DataSources.DirectoryAndTextFile
 
             lines.RemoveRange(0, 4);
             lines.RemoveRange(lines.Count - 1, 1);
+            
             entry.Body = string.Join("\n\n", lines);
+            
+            entry.Body = entry.Body.Replace("\n\n[embedded content]\n\n", "\n\n");
+            
+            RegexOptions options = RegexOptions.None;
+            Regex regex = new Regex(@"[ ]{2,}", options);
+            entry.Body = regex.Replace(entry.Body, @" ");
 
             return entry;
         }
