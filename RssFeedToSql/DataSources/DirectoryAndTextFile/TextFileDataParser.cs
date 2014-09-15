@@ -14,7 +14,7 @@ namespace RssFeedToSql.DataSources.DirectoryAndTextFile
         {
             var entry = new Entry();
             textSample = textSample.Trim();
-            var lines = textSample.Split(new[] {Environment.NewLine}, StringSplitOptions.None).ToList();
+            var lines = textSample.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries).Select(l => l.Trim()).ToList();
 
             if (lines.Count < 4)
             {
