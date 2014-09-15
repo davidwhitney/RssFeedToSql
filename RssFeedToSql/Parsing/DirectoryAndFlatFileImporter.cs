@@ -57,5 +57,9 @@ namespace RssFeedToSql.Parsing
                 Console.Write(index + 1 + " ");
             }
         }
+
+        public void Dispose()
+        {
+        }
     }
 }

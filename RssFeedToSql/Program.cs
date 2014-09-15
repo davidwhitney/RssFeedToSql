@@ -21,13 +21,10 @@ namespace RssFeedToSql
         private static void ImportData(string[] args)
         {
             using (var sqlFileProcessingPipeline = new SqlOutputFileProcessor("import.sql"))
+            using (var indexer = new DirectoryAndFlatFileImporter(args[0]))
             {
-                var indexer = new DirectoryAndFlatFileImporter(args[0])
-                {
-                    OnPublicationParsed = sqlFileProcessingPipeline.ProcessSingleItem,
-                    OnEntryParsed = sqlFileProcessingPipeline.ProcessSingleItem
-                };
-
+                indexer.OnPublicationParsed = sqlFileProcessingPipeline.ProcessSingleItem;
+                indexer.OnEntryParsed = sqlFileProcessingPipeline.ProcessSingleItem;
                 indexer.Import();
             }
 
