@@ -38,13 +38,17 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DirectoryIndexer.cs" />
+    <Compile Include="IProcessArticles.cs" />
+    <Compile Include="IProcessPublications.cs" />
+    <Compile Include="IImportFromADataSource.cs" />
+    <Compile Include="Parsing\DirectoryAndFlatFileImporter.cs" />
     <Compile Include="Model\Entry.cs" />
     <Compile Include="Model\IHaveAnId.cs" />
     <Compile Include="Parsing\Parser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Publication.cs" />
+    <Compile Include="SqlGeneration\SqlOutputFileProcessor.cs" />
     <Compile Include="SqlGeneration\SqlMapper.cs" />
     <Compile Include="Model\Writer.cs" />
     <Compile Include="SqlGeneration\InMemoryDatabaseOf.cs" />

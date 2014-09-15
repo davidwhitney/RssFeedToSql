@@ -1,4 +1,4 @@
-namespace RssFeedToSql
+namespace RssFeedToSql.Model
 {
     public interface IHaveAnId
     {

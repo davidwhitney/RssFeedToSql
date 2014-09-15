@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using RssFeedToSql.Model;
 
 namespace RssFeedToSql.SqlGeneration
 {

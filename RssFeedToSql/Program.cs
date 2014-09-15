@@ -1,5 +1,6 @@
 ﻿using System;
-using System.IO;
+using RssFeedToSql.Parsing;
+using RssFeedToSql.SqlGeneration;
 
 namespace RssFeedToSql
 {
@@ -14,12 +15,30 @@ namespace RssFeedToSql
                 return;
             }
 
+            TryImportData(args);
+        }
+
+        private static void ImportData(string[] args)
+        {
+            using (var sqlFileProcessingPipeline = new SqlOutputFileProcessor("import.sql"))
+            {
+                var indexer = new DirectoryAndFlatFileImporter(args[0])
+                {
+                    OnPublicationParsed = sqlFileProcessingPipeline.ProcessSingleItem,
+                    OnEntryParsed = sqlFileProcessingPipeline.ProcessSingleItem
+                };
+
+                indexer.Import();
+            }
+
+            Console.WriteLine("Written all text to import.sql");
+        }
+
+        private static void TryImportData(string[] args)
+        {
             try
             {
-                var indexer = new DirectoryIndexer();
-                indexer.IndexAllDirectoriesUnder(args[0]);
-
-                Console.WriteLine("Written all text to import.sql");
+                ImportData(args);
             }
             catch (Exception ex)
             {
