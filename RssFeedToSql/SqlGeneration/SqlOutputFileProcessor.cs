@@ -34,7 +34,10 @@ namespace RssFeedToSql.SqlGeneration
 
         public void ProcessSingleItem(Publication publication)
         {
-            _publications.CreateOrRetrieveId(publication);
+            var id = _publications.CreateOrRetrieveId(publication);
+            publication.Id = id;
+
+            // Delayed write for nice formatting in output file - see dispose.
         }
 
         private void WritePublicationAndWriterData(TextWriter openStream)
